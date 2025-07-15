@@ -1,0 +1,13 @@
+{
+  "name": "api-esportiva-tests",
+  "version": "1.0.0",
+  "description": "Testes automatizados da API Esportiva",
+  "scripts": {
+    "test:local": "newman run API_Esportiva.postman_collection.json -e environments/Local.postman_environment.json",
+    "test:prod": "newman run API_Esportiva.postman_collection.json -e environments/Production.postman_environment.json",
+    "test:auto": "node newman-runner.js"
+  },
+  "dependencies": {
+    "newman": "^5.3.2"
+  }
+}

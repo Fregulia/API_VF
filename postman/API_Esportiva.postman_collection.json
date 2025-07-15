@@ -1,0 +1,101 @@
+{
+	"info": {
+		"name": "API Esportiva",
+		"description": "Coleção para testar API de gerenciamento esportivo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "{{base_url}}",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "{{token}}",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('token', response.access_token);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "login"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Esportes",
+			"item": [
+				{
+					"name": "Listar Esportes",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/api/esporte",
+							"host": ["{{base_url}}"],
+							"path": ["api", "esporte"]
+						}
+					}
+				},
+				{
+					"name": "Criar Esporte",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Futebol\",\n    \"federacao\": \"CBF\",\n    \"descricao\": \"Esporte mais popular do Brasil\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/esporte",
+							"host": ["{{base_url}}"],
+							"path": ["api", "esporte"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

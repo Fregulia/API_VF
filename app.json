@@ -1,0 +1,32 @@
+{
+  "name": "Laravel API Esportiva",
+  "description": "API RESTful para gerenciamento esportivo",
+  "keywords": ["laravel", "php", "api", "heroku"],
+  "website": "https://laravel.com",
+  "repository": "https://github.com/your-username/laravel-api-esportiva",
+  "logo": "https://laravel.com/img/logomark.min.svg",
+  "success_url": "/",
+  "scripts": {
+    "postdeploy": "php artisan migrate --force && php artisan db:seed --force"
+  },
+  "env": {
+    "APP_KEY": {
+      "description": "Laravel application key",
+      "generator": "secret"
+    },
+    "APP_ENV": {
+      "value": "production"
+    },
+    "APP_DEBUG": {
+      "value": "false"
+    }
+  },
+  "addons": [
+    "heroku-postgresql:mini"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/php"
+    }
+  ]
+}
