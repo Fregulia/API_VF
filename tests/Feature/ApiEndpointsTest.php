@@ -120,7 +120,8 @@ class ApiEndpointsTest extends TestCase
                  ]);
 
         $atleta = Atleta::latest()->first();
-        $this->assertCount(1, $atleta->treinadores);
+        // Verificar se os treinadores foram associados corretamente
+        $this->assertCount(count($treinadores), $atleta->treinadores);
     }
 
     public function test_atleta_update_syncs_relationships()
