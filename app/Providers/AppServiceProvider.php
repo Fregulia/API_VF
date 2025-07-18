@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         //Configura limite de requisições para a API
         $this->configureRateLimiting();
+        
+        // Força HTTPS apenas em produção
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
