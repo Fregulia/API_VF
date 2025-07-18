@@ -28,14 +28,32 @@ class UserController extends Controller
             'role' => 'sometimes|in:user,manager,admin'
         ]);
 
-        if (isset($validated['role']) && $validated['role'] !== 'user' && $request->user()->role !== 'admin') {
-            return response()->json(['error' => 'Apenas admins podem criar usuários com roles especiais'], 403);
+        // Verifica se é uma requisição autenticada
+        if ($request->user()) {
+            // Se autenticado, verifica permissões para roles especiais
+            if (isset($validated['role']) && $validated['role'] !== 'user' && $request->user()->role !== 'admin') {
+                return response()->json(['error' => 'Apenas admins podem criar usuários com roles especiais'], 403);
+            }
+        } else {
+            // Se for registro público, força role como 'user'
+            $validated['role'] = 'user';
         }
 
         $validated['password'] = Hash::make($validated['password']);
         $validated['role'] = $validated['role'] ?? 'user';
 
         $user = User::create($validated);
+        
+        // Se for registro público, gera um token de acesso
+        if (!$request->user()) {
+            $token = $user->createToken('auth-token')->plainTextToken;
+            return response()->json([
+                'user' => $user,
+                'access_token' => $token,
+                'token_type' => 'Bearer'
+            ], 201);
+        }
+        
         return response()->json($user, 201);
     }
 

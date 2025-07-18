@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 // Rotas públicas
 Route::post('/login', [AuthController::class, 'login'])->name('api.login');
+Route::post('/register', [UserController::class, 'store'])->name('api.register');
 // Rotas protegidas
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -22,7 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Rotas de usuários
     Route::get('/users', [UserController::class, 'index']);
-    Route::post('/users', [UserController::class, 'store']);
     Route::get('/users/{user}', [UserController::class, 'show'])->middleware('ownership');
     Route::put('/users/{user}', [UserController::class, 'update'])->middleware('ownership');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->middleware('ownership');
